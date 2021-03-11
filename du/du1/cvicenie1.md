@@ -4,6 +4,10 @@
 
 [Zadanie domácej úlohy](du1.md)
 
+## Termín
+
+**Úlohu treba odovzdať do 21. 3. 2021.**
+
 ## Testovač
 
 [Testovač](tester)
