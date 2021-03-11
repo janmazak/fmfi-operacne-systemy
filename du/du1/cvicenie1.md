@@ -1,6 +1,21 @@
 # Cvičenie 1 (multithreading)
 
-Zadanie domácej úlohy: (du1.md)
+## Zadanie
+
+[Zadanie domácej úlohy](du1.md)
+
+## Testovač
+
+[Testovač](tester)
+
+Použitie:
+1. Naklonujte si repozitár.
+2. Umiestnite testované riešenie do adresára `du/du1/tester/src`.
+3. V adresári `du/du1/tester` spusťte `./testall.sh`.
+
+Testovač nie je úplne spoľahlivý: môže sa stať, že nedokáže váš program násilne ukončiť po presiahnutí časového limitu (napr. ak vyrobíte deadlock). Nebojte sa ho vylepšiť (spravte pull request so zmenami).
+
+## Knižnica _pthreads_
 
 V riešení domácej úlohy budeme využívať jazyk C a knižnicu _pthreads_ (POSIX threads). Stručný popis nájdete nižšie a podrobnejší v [tutoriáli](https://computing.llnl.gov/tutorials/pthreads/).
 
@@ -16,29 +31,29 @@ Krátky kód, ktorý vytvorí dve súčasne bežiace vlákna a nechá ich vypiso
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
      
     void *vlakno1(void *data) {
-	    while(1) {
-		    pthread_mutex_lock(&mutex);
-		    printf("--"); printf("---"); printf("\n");
-		    pthread_mutex_unlock(&mutex);
-                    sleep(1);
-	    }
+        while(1) {
+            pthread_mutex_lock(&mutex);
+            printf("--"); printf("---"); printf("\n");
+            pthread_mutex_unlock(&mutex);
+            sleep(1);
+        }
     }
      
     void *vlakno2(void *data) {
-	    while(1) {
-		    pthread_mutex_lock(&mutex);
-		    printf("++"); printf("+++"); printf("\n");
-		    pthread_mutex_unlock(&mutex);
-                    sleep(1);
-	    }
+        while(1) {
+            pthread_mutex_lock(&mutex);
+            printf("++"); printf("+++"); printf("\n");
+            pthread_mutex_unlock(&mutex);
+            sleep(1);
+        }
     }
      
     int main (void) {
-	    pthread_t t1, t2;
-	    pthread_create(&t1, NULL, vlakno1,  NULL);
-	    pthread_create(&t2, NULL, vlakno2,  NULL);
-	    sleep(5);
-	    return 0;
+        pthread_t t1, t2;
+        pthread_create(&t1, NULL, vlakno1,  NULL);
+        pthread_create(&t2, NULL, vlakno2,  NULL);
+        sleep(5);
+        return 0;
     }
 
 Na skompilovanie kódu použite príkaz:
