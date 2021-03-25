@@ -18,6 +18,8 @@ Vase moznosti prace s pamatou budu obmedzene -- nebudete k nej pristupovat ako k
 
   - `mwrite(adresa, data)` -- zapise na adresu _adresa_ bajt _data_.
 
+Velkost pamati bude najviac 2^30, cize adresy sa zmestia do 4 bytov, resp. od typu `int` na beznom pocitaci.
+
 Navyse, nesmiete pouzivat ziadne globalne ani staticke premenne, cize:
   - ziadne premenne nesmu byt deklarovane mimo funkcii,
   - nesmiete pouzivat klucove slovo `static` okrem miest, kde uz pouzite je (pri `const`). 
