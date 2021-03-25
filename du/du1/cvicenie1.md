@@ -121,5 +121,7 @@ Viac informácií sa opäť dá nájsť napríklad na
 * http://linux.die.net/man/3/pthread_cond_wait
 * http://linux.die.net/man/3/pthread_cond_signa
 
-V oboch prípadoch je dôležité uvedomiť si, že spánok vlákna môže byť zobudený nielen signálom z iného vlákna, ale aj operačným systémom z iných dôvodov. Preto treba vždy po zobudení skontrolovať, či bola potrebná podmienka skutočne splnená.
+V oboch prípadoch je dôležité uvedomiť si, že spánok vlákna môže byť zobudený nielen signálom z iného vlákna, ale aj operačným systémom z iných dôvodov (ide najmä o prípade, keď na jednom mutexe čaká viac ako jedno vlákno). Preto treba vždy po zobudení skontrolovať, či bola potrebná podmienka skutočne splnená.
+
+Aj keď je povolené zavolať `pthread_cond_signal()` mimo časti kódu so zamknutým mutexom, [v niektorých prípadoch je to nevhodné](https://stackoverflow.com/questions/4544234/calling-pthread-cond-signal-without-locking-mutex#:~:text=The%20pthread_cond_signal()%20routine%20is,pthread_cond_wait()%20routine%20to%20complete.).
 
