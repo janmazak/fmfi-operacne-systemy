@@ -100,7 +100,7 @@ Detailnejšia dokumentácia:
 
 Umožňuje vláknam čakať na splnenie podmienky v kritickej sekcii. Základné operácie sú `wait`/`await` a `signal`. Typický scenár použitia je nasledovný: 
 
-Vlákno, ktoré vnútri kritickej sekcie čaká na splnenie nejakej podmienky, môže zaspať na condition variable. Pri zaspaní vnútri kritickej sekcie sa zároveň uvoľní mutex, ktorý pre ňu toto vlákno držalo. Vďaka tomuto môže nejaké iné vlákno vstúpiť do tej istej kritickej sekcie a vykonať nejaké zmeny. Zároveň, ak je šanca, že bola zmenená podmienka, pre ktorú prvé vlákno zaspalo, môže mu poslať `signal`/`wake`. Po zobudení začne vlákno čakať na získanie mutexu, overí, či bola splnená podmienka, na ktorú čakalo -- v prípade kladnej odpovede pokračuje vo vykonávaní, ináč opäť zaspí.
+Vlákno, ktoré vnútri kritickej sekcie čaká na splnenie nejakej podmienky, môže zaspať na condition variable. **Pri zaspaní vnútri kritickej sekcie sa zároveň uvoľní mutex**, ktorý pre ňu toto vlákno držalo (**dávajte preto veľký pozor na poradie priradení pre zdieľané premenné**). Vďaka tomuto môže nejaké iné vlákno vstúpiť do tej istej kritickej sekcie a vykonať nejaké zmeny. Zároveň, ak je šanca, že bola zmenená podmienka, pre ktorú prvé vlákno zaspalo, môže mu poslať `signal`/`wake`. Po zobudení začne vlákno čakať na získanie mutexu, overí, či bola splnená podmienka, na ktorú čakalo -- v prípade kladnej odpovede pokračuje vo vykonávaní, ináč opäť zaspí.
 
 Dôležitá podmnožina Pthreads API je nasledovná:
 * `int pthread_cond_init(pthread_cond_t *cond)`<br>
