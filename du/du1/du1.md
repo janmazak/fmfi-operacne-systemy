@@ -32,7 +32,7 @@ Môžete tiež využiť [testovač](tester).
 
 ### Odovzdávanie a hodnotenie
 
-Programy sa odovzdávajú e-mailom na adresu `mazak.fmfi@gmail.com` (predmet `OS-DU1`, súbor priložte k e-mailu a pomenujte `priezvisko.c`, kde _priezvisko_ je vaše priezvisko. Odovzdať je možné viackrát (najviac raz denne). Pre bonusovú úlohu môžete odovzdať iný úplne nezávislý program, pomenujte ho `priezvisko_bonus.c`. Azda ani jeden rok sa ešte nestalo, aby všetci tieto pokyny dodržali, nepodceňujte to. :)
+Programy sa odovzdávajú e-mailom na adresu `mazak.fmfi@gmail.com`, predmet `OS-DU1`, súbor priložte k e-mailu a pomenujte `priezvisko.c`, kde _priezvisko_ je vaše priezvisko. Odovzdať je možné viackrát (najviac raz denne). Pre bonusovú úlohu môžete odovzdať iný úplne nezávislý program, pomenujte ho `priezvisko_bonus.c`. Azda ani jeden rok sa ešte nestalo, aby všetci tieto pokyny dodržali, nepodceňujte to. :)
 
 Plný počet bodov dostane program, ktorý za každých podmienok zvládne splniť zadanie úlohy; 0 bodov program, ktorý nie je možné donútiť, aby aspoň v nejakom prípade dostatočne spĺňal zadanie. Body medzi sa škálujú podľa rozsahu (ne-)funkčnosti. Zároveň **je možné získať 2 bonusové body** -- získa ich každý, komu sa podarí implementovať cat (aj keď nie nutne multithreadový), ktorý bude aspoň občas v 2 z 3 behov v reálnom čase (prvé číslo vo výstupe programu `time`) rýchlejší ako skutočný `cat`.
 

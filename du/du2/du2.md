@@ -119,7 +119,7 @@ Zaroven prichadza challenge: priblizne 5 algoritmov, ktore budu vediet pamat vyu
 
 ## Odovzdavanie
 
-Programy sa odovzdávajú e-mailom na adresu `mazak.fmfi@gmail.com` (predmet `OS-DU2`, súbor `alloc.c` priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne). Pre bonusovú úlohu môžete odovzdať iný úplne nezávislý program, pomenujte ho `priezvisko_bonus.c`. Azda ani jeden rok sa ešte nestalo, aby všetci tieto pokyny dodržali, nepodceňujte to. :)
+Programy sa odovzdávajú e-mailom na adresu `mazak.fmfi@gmail.com`, predmet `OS-DU2`, súbor `alloc.c` priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne).
 
 Najneskorsi mozny termin odovzdania je **11. 4. 2021**. Nepodcenujte cas potrebny na tuto DU, za hodinku-dve to s velmi vysokou pravdepodobnostou nenapisete.
 
