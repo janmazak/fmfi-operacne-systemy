@@ -127,7 +127,7 @@ buffer v tomto formáte.
 Ďalšia možnosť na testovanie je súbor [`test.c`](src/test.c), v ktorom máte ukážku volania
 zopár funkcií filesystému, alebo použitie [testovaca](tester).
 
-Dobre si overte, že vás program korektné pracuje s pamäťou ([valgrind](https://valgrind.org/docs/manual/quick-start.html)).
+Dobre si overte, že vás program korektne pracuje s pamäťou ([valgrind](https://valgrind.org/docs/manual/quick-start.html)).
 
 ## Hodnotenie
 
@@ -140,7 +140,7 @@ Premyslite si preto už na začiatku, aké máte ciele.
   - korektná implementácia po úroveň L3 -- 12 bodov
   - korektná implementácia po úroveň L4 -- 14 bodov
 
-Korektná implementácia L3 znamená, že _všetko_ bude zvládať korektné pracovať
+Korektná implementácia L3 znamená, že _všetko_ bude zvládať korektne pracovať
 s adresármi, nie iba funkcie, ktoré sú v L3 navyše.
 
 
