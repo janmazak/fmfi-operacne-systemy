@@ -98,7 +98,7 @@ Symbolické linky sa môžu vytvárať aj na adresáre a neexistujúce položky.
 * Kompilácia: spustenie príkazu `make` v adresári so súbormi.
 * Spustenie programu: `./wrapper`, prípadne `./test` pre testovanie.
 
-Všetky potrebné súbory nájdete v adresári [`src/`](src). Pre make
+Všetky potrebné súbory nájdete v adresári [`src`](src). Pre make
 je tam [`Makefile`](src/Makefile), pomocou ktorého vytvoríte spustiteľný súbor `wrapper`, čo je váš
 filesystem obalený wrapperom, ktorý čaká na príkazy. Viete si taktiež
 skompilovať test, do ktorého môžete priamo písať príkazy, ktoré má váš
