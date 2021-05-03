@@ -149,4 +149,5 @@ s adresármi, nie iba funkcie, ktoré sú v L3 navyše.
 Programy sa odovzdávajú e-mailom na adresu `mazak.fmfi@gmail.com`, predmet `OS-DU3`, súbor `filesystem.c` priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne).
 
 Najneskorší možný termín odovzdania je **3. 5. 2021**. Nepodceňujte čas potrebný na túto DU, za pol dňa to asi nenapíšete.
-
+	
+Úlohy odovzdané od 4. 5. do 8. 5. 2021 majú šancu získať max. 7 bodov (implementácia L1+L2) alebo 8 bodov (L1+L2+L3).
