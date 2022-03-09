@@ -6,7 +6,7 @@
 
 ## Termín
 
-**Úlohu treba odovzdať do 21. 3. 2021.**
+**Úlohu treba odovzdať do 28. 3. 2022.**
 
 ## Testovač
 
