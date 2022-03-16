@@ -139,6 +139,7 @@ function run_test() {
 date
 echo "Running tests with deadline $LIMIT_TIME seconds"
 ONLY=$@
+mkdir -p cache bin
 compile $ONLY
 run_test 0 $ONLY
 run_test 47 $ONLY
@@ -146,3 +147,5 @@ run_test 100K $ONLY
 run_test 10M $ONLY
 run_test 330M $ONLY
 #run_test 1000M $ONLY
+
+rm -r -f ./cache ./bin
