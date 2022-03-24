@@ -128,5 +128,5 @@ Zároveň prichádza challenge: približne 5 algoritmov, ktoré budú vedieť pa
 
 Programy sa odovzdávajú e-mailom na adresu `mazak.fmfi@gmail.com`, predmet `OS-DU2`, súbor `alloc.c` priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne).
 
-Najneskorší možný termín odovzdania je **18. 4. 2022**. Nepodceňujte čas potrebný na túto DU, za hodinku-dve to s vysokou pravdepodobnosťou nenapíšete, najmä ak cielite na efektívnejšie riešenie, ktoré má šancu získať bonus.
+Najneskorší možný termín odovzdania je **25. 4. 2022**. Nepodceňujte čas potrebný na túto DU, za hodinku-dve to s vysokou pravdepodobnosťou nenapíšete, najmä ak cielite na efektívnejšie riešenie, ktoré má šancu získať bonus.
 
