@@ -19,10 +19,12 @@ Vaše možnosti práce s pamäťou budú obmedzené -- nebudete k nej pristupova
   - `mwrite(adresa, dáta)` -- zapíše na adresu _adresa_ bajt _dáta_.
 
 Veľkosť pamäte bude najviac 2^30, čiže adresy sa zmestia do 4 bytov, resp. od typu `int` na bežnom počítači.
+Veľkosť pamäte sa počas činnosti vášho alokátora nemení, `msize()` vráti stále rovnakú hodnotu (takú, ako v `my_init()`, viď nižšie).
 
 Navyše, nesmiete používať žiadne globálne ani statické premenné, čiže:
   - žiadne premenné nesmú byť deklarované mimo funkcií,
-  - nesmiete používať kľúčové slovo `static` okrem miest, kde už použité je (pri `const`). 
+  - nesmiete používať kľúčové slovo `static` okrem miest, kde už použité je (pri `const`).
+(Je však možné do globálneho priestoru umiestniť konštanty, napr. ak máte predpočítanú veľkú tabuľku.)
 
 A samozrejme, žiadne triky s dynamickou alokáciou pamäte a ukladaním si
 ukazovateľov cez `mwrite`. Váš program môže byť kedykoľvek ukončený a spustený znova;
