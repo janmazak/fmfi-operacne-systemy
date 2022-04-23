@@ -1,13 +1,14 @@
 #!/bin/bash
 SDIR=src
 SOURCES=$(cd $SDIR; ls *.c)
-BIN=bin/
+BIN=bin
 TMPFILE=/tmp/data_os_homework1_runtest
 OUTFILE=/tmp/out_os_homework1_runtest
 RESFILE=/tmp/res_os_homework1_runtest
-LIMIT_TIME=10
+LIMIT_TIME=1
 
 set +m
+#set -o xtrace
 
 function red_echo() {
 echo -ne "\e[0;31m"
@@ -74,13 +75,13 @@ function result() {
 	diff -b $infile $outfile >/dev/null
 	dif=$?
 	
-	if [ $ret -ne 0 ]; then
-		if [ $ret -eq 137 ]; then
+	if [ $retval -ne 0 ]; then
+		if [ $retval -eq 137 ]; then
 			red_echo -n "Time limit exceeded";
-		elif [ $ret -eq 11 ]; then
-			red_echo -n "Runtime error";
+		elif [ $retval -eq 139 ]; then
+			red_echo -n "Segmentation fault";
 		else
-			red_echo -n "FAIL ($ret)";
+			red_echo -n "FAIL ($retval)";
 		fi;
 	else
 		if [ $dif -ne 0 ]; then
@@ -96,29 +97,33 @@ function result() {
 
 function run_test() {
 	size=$1; shift
-	run_only=$@
+	run_only=$@  # list of all the additional args
 	rm -f $TMPFILE
 	touch $TMPFILE
-	# fast
-	if [ x$size != x0 ]; then dd if=/dev/urandom of=$TMPFILE bs=$size count=1 iflag=fullblock; fi
-	# slow
 
+	# for size > 0, generate data
+	if [ x$size != x0 ]; then dd if=/dev/urandom of=$TMPFILE bs=$size count=1 iflag=fullblock; fi
+
+	# if names specified, run only those
 	if [ x$run_only != x ]; then
 		run="$run_only"
+		disableCache=1
 	else
-		run="/usr/bin/cat $(ls -1 $BIN/*)"
+		run="$(ls -1 $BIN/*)"
+		disableCache=0
 	fi;
 	
 	for i in $run; do
+		if ! [[ $i == $BIN/* ]]; then executable=$BIN/$i; else executable=$i; fi
 		name=$(basename ${i})
 		CACHED=cache/${name}-${size}.cache
-		if [ ! -f $CACHED ] || [ $i -nt $CACHED ]; then
+		if [ $disableCache ] || [ ! -f $CACHED ] || [ $i -nt $CACHED ]; then
 			(
 			echo -ne "${size}\t$(printf "%16s" ${name})\t"
 			
-			for n in 1 2 3; do
+			for n in {1..3}; do
 				rm -f $OUTFILE
-				launch $i
+				launch $executable
 				ret=$?
 				
 				echo -n $(result $TMPFILE $OUTFILE $RESFILE $ret)
@@ -132,7 +137,6 @@ function run_test() {
 
 	done
 	rm -f $TMPFILE
-	# fast;
 }
 
 
@@ -142,7 +146,8 @@ ONLY=$@
 compile $ONLY
 run_test 0 $ONLY
 run_test 47 $ONLY
-run_test 100K $ONLY
-run_test 10M $ONLY
-run_test 330M $ONLY
+#run_test 100K $ONLY
+#run_test 10M $ONLY
+run_test 100M $ONLY
+#run_test 500M $ONLY
 #run_test 1000M $ONLY
