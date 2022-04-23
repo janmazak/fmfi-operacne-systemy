@@ -16,7 +16,7 @@ int minit(void) {
 		/* Set up size of the file, if it does not exist */
 		unsigned char c=0;
 		int i;
-		mem = fopen("memory.bin", "w+");
+		mem = fopen("memory.bin", "wb+");
 		fseek(mem, 0, SEEK_SET);
 		for (i = 0; i < MEMORY_SIZE; i++)
 			fwrite(&c, 1, 1, mem);
