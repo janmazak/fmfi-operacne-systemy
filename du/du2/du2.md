@@ -44,8 +44,7 @@ Váš alokátor má fungovať za predpokladu, že užívatelia prepisujú len im
 ## Čo máte spraviť
 
 V zadaní je pre vás dôležitý iba jeden súbor -- [alloc.c](src/alloc.c).
-V tomto súbore budete upravovať kód funkcií, nemali by ste sa dotýkať ničoho
-iného. Obzvlášť nie obsahu súboru `wrapper.c` a `wrapper.h` (tieto súbory ani neposielajte; ako riešenie úlohy stačí `alloc.c`).
+Všetka vaša práca by sa mala realizovať v rámci tohto súboru, nepridávajte dodatočné súbory a nemeňte iné existujúce (napr. `wrapper.c` a `wrapper.h`, tieto súbory ani neposielajte; ako riešenie úlohy stačí `alloc.c`). Môžete si do `alloc.c` pridať vlastné funkcie podľa potreby.
 
 Vašou úlohou je (re-)implementovať nasledovné tri funkcie v `alloc.c`:
 

@@ -1,6 +1,6 @@
 #include "wrapper.h"
 
-/* Kod funkcii my_alloc a my_free nahradte vlastnym. Nepouzivajte ziadne
+/* Kod funkcii my_init, my_alloc a my_free nahradte vlastnym. Nepouzivajte ziadne
  * globalne ani staticke premenne; jedina globalna pamat je dostupna pomocou
  * mread/mwrite/msize, ktorych popis najdete vo wrapper.h */
 
