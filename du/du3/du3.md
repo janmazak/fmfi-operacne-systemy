@@ -148,4 +148,4 @@ s adresármi, nie iba funkcie, ktoré sú v L3 navyše.
 
 Programy sa odovzdávajú e-mailom na adresu `mazak.fmfi@gmail.com`, predmet `OS-DU3`, súbor `filesystem.c` priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne).
 
-Najneskorší možný termín odovzdania je **9. 5. 2022**. Nepodceňujte čas potrebný na túto DU, za pol dňa to asi nenapíšete.
+Najneskorší možný termín odovzdania je **18. 5. 2022**. Nepodceňujte čas potrebný na túto DU, za pol dňa to asi nenapíšete.
