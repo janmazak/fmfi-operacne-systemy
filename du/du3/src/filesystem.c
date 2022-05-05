@@ -295,7 +295,7 @@ int fs_mkdir(const char *path) { return FAIL; }
 /**
  * Odstrani adresar 'path'.
  *
- * Odstrani adresar, na ktory ukazuje 'path'; ak neexistuje alebo nie je
+ * Odstrani prazdny adresar, na ktory ukazuje 'path'; ak obsahuje subory, neexistuje alebo nie je
  * adresar, vrati FAIL; po uspesnom dokonceni vrati OK.
  */
 int fs_rmdir(const char *path) { return FAIL; }
