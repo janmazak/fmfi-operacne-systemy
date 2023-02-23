@@ -1,6 +1,6 @@
 # Operačné systémy 1-INF-171/15
 
-Cvičenia k predmetu _Operačné systémy_ pozostávajú zo samostatnej práce (programovanie, štúdium dokumentácie k rôznym programovacím prostriedkom) a prípadných krátkych individuálnych konzultácií (dohadujú sa najmä e-mailom).
+Cvičenia k predmetu _Operačné systémy_ pozostávajú zo samostatnej práce (programovanie, štúdium dokumentácie) a prípadných krátkych individuálnych konzultácií (dohadujú sa najmä e-mailom).
 
 V prípade ľubovoľných otázok na tému domácich úloh (napr. chyba či nejasnosť v zadaní) sa, prosím, ozvite čím skôr. Napíšte mi aj v prípade, že si s nejakým problémom dlhšie neviete poradiť.
 
