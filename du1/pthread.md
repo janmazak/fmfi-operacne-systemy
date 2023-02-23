@@ -1,25 +1,4 @@
-# Cvičenie 1 (multithreading)
-
-## Zadanie
-
-[Zadanie domácej úlohy](du1.md)
-
-## Termín
-
-**Úlohu treba odovzdať do 28. 3. 2022.**
-
-## Testovač
-
-[Testovač](tester)
-
-Použitie:
-1. Naklonujte si repozitár.
-2. Umiestnite testované riešenie do adresára `du/du1/tester/src`.
-3. V adresári `du/du1/tester` spusťte `./testall.sh`.
-
-Testovač nie je úplne spoľahlivý: môže sa stať, že nedokáže váš program násilne ukončiť po presiahnutí časového limitu (napr. ak vyrobíte deadlock). Nebojte sa ho vylepšiť (spravte pull request so zmenami).
-
-## Knižnica _pthreads_
+# Multithreading v C pomocou _pthreads_
 
 V riešení domácej úlohy budeme využívať jazyk C a knižnicu _pthreads_ (POSIX threads). Stručný popis nájdete nižšie a podrobnejší v [tutoriáli](https://computing.llnl.gov/tutorials/pthreads/).
 
@@ -60,7 +39,7 @@ Krátky kód, ktorý vytvorí dve súčasne bežiace vlákna a nechá ich vypiso
         return 0;
     }
 
-Na skompilovanie kódu použite príkaz:
+Na skompilovanie kódu použite
 
     gcc -pthread example.c -o example
 
