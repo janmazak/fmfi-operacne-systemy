@@ -45,7 +45,7 @@ Testovač nie je úplne spoľahlivý: môže sa stať, že nedokáže váš prog
 
 ### Odovzdávanie a hodnotenie
 
-Programy sa odovzdávajú e-mailom na adresu `jan.mazak@fmph.uniba.sk`, predmet `OS-DU1`, súbor `<priezvisko>.c` (kde `<priezvisko>` je vaše priezvisko) priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne). Najneskorší možný termín odovzdania je **3. 4. 2023**.
+Programy sa odovzdávajú e-mailom na adresu `jan.mazak@fmph.uniba.sk`, predmet `OS-DU1`, súbor `<priezvisko>.c` (kde `<priezvisko>` je vaše priezvisko) priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne). Najneskorší možný termín odovzdania je **7. 4. 2023**.
 
 Plný počet bodov dostane program, ktorý za každých podmienok zvládne splniť zadanie úlohy; 0 bodov program, ktorý nie je možné donútiť, aby aspoň v nejakom prípade dostatočne spĺňal zadanie. Body medzi sa škálujú podľa rozsahu (ne-)funkčnosti.
 
