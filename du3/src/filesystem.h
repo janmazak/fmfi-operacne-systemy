@@ -24,7 +24,7 @@ enum {
 typedef struct fs_stat {
 	uint32_t st_size;  /* file size */
 	uint32_t st_nlink; /* number of hard links */
-	uint32_t st_type;  /* type, e.g. STAT_TYPE_DIR */ 
+	uint32_t st_type;  /* type, e.g. STAT_TYPE_DIR */
 } fs_stat_t;
 
 /* File handle pre otvorenu polozku. Na kazdy otvoreny subor mate 16 bajtov, v

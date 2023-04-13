@@ -18,7 +18,7 @@ typedef struct {
 /**
  * Naformatovanie disku.
  *
- * Zavola sa vzdy, ked sa vytvara novy obraz disku. 
+ * Zavola sa vzdy, ked sa vytvara novy obraz disku.
  */
 void fs_format()
 {
@@ -56,7 +56,7 @@ file_t *fs_creat(const char *path)
 		((zero_sector_t*)buffer)->name[0] = 0;
 		hdd_write(0, buffer);
 	}
-	
+
 	/* Vsetko ok, pripravime informacie pre zapis do nulteho sektora */
 
 	/* Meno suboru je na zaciatku*/
@@ -162,7 +162,7 @@ int fs_read(file_t *fd, uint8_t *bytes, size_t size)
 	size_t i;
 	for (i = 0; (i < size) && ((i + offset) < file_size); i++) {
 		bytes[i] = buffer[offset + i];
-	}	
+	}
 
 	/* Aktualizujeme offset, na ktorom sme teraz */
 	fd->info[FILE_T_OFFSET] += i;
@@ -182,7 +182,6 @@ int fs_read(file_t *fd, uint8_t *bytes, size_t size)
  * Write existujuci obsah suboru prepisuje, nevklada dovnutra nove data.
  * Write pre poziciu tesne za koncom existujucich dat zvacsi velkost suboru.
  */
-
 int fs_write(file_t *fd, const uint8_t *bytes, size_t size)
 {
 	uint8_t buffer[SECTOR_SIZE] = { 0 };
@@ -222,8 +221,6 @@ int fs_write(file_t *fd, const uint8_t *bytes, size_t size)
  * Upravi aktualnu poziciu; ak je 'pos' mimo hranic suboru, vrati FAIL a pozicia
  * sa nezmeni, inac vracia OK.
  */
-
-
 int fs_seek(file_t *fd, size_t pos)
 {
 	uint8_t buffer[SECTOR_SIZE] = { 0 };
@@ -280,7 +277,7 @@ int fs_stat(const char *path, struct fs_stat *fs_stat) {
 	fs_stat->st_nlink = 1;
 	fs_stat->st_type = STAT_TYPE_FILE;
 
-	return OK; 
+	return OK;
 }
 
 /* Level 3 */
@@ -318,7 +315,7 @@ file_t *fs_opendir(const char *path) { return (file_t*)FAIL; }
  */
 int fs_readdir(file_t *dir, char *item) {return FAIL; }
 
-/** 
+/**
  * Zatvori otvoreny adresar.
  */
 int fs_closedir(file_t *dir) { return FAIL; }

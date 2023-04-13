@@ -15,10 +15,11 @@ def if_raise(cond, s):
 		raise RuntimeError(s)
 
 def next_inode():
-	next_inode.i+=1
+	next_inode.i += 1
 	return next_inode.i
+
 next_inode.i = 0
-	
+
 def parent(s):
 	ret = s[:s.rfind('/')]
 	if ret == '':
@@ -145,7 +146,7 @@ class FilesystemTester:
 		self.pos[fd] += ret[0]
 
 		return ret
-		
+
 	def write(self, fd, data):
 		assert fd in self.fd.keys()
 
@@ -158,7 +159,7 @@ class FilesystemTester:
 		curpos = self.pos[fd]
 		fname = self.fd[fd]
 		inode = self.fs[fname]['inode']
-		
+
 		content = self.inodes[inode]
 		self.inodes[inode] = content[0:curpos] + data[0:written] + content[curpos+written:]
 		self.pos[fd] += written
@@ -187,11 +188,11 @@ class FilesystemTester:
 		ret = self.s.rename(oldpath,newpath)
 		assert oldpath not in self.fd.values()
 		assert newpath not in self.fd.values()
-		
+
 		if_raise((oldpath not in self.fs.keys() and (ret != FAIL)),
 			"Rename on non-existent file succeeded")
 		assert oldpath in self.fs.keys()
-		
+
 		if_raise((newpath in self.fs.keys() and (self.fs[newpath]['type'] ==
 			STAT_TYPE_DIR) and (self.fs[oldpath]['type'] != STAT_TYPE_DIR) and (ret != FAIL)),
 			"Renaming directory to existing file")
@@ -201,7 +202,7 @@ class FilesystemTester:
 		if_raise((newpath in self.fs.keys() and (self.fs[newpath]['type'] !=
 			STAT_TYPE_DIR) and (newpath not in self.fs.keys()) and (ret == FAIL)),
 			"Could not rename existing file")
-		
+
 		# Rename all matching items
 		keys = list(self.fs.keys())
 		for key in keys:
@@ -218,7 +219,7 @@ class FilesystemTester:
 		ret = self.s.tell(fd)
 		if_raise(ret != self.pos[fd], "Invalid file position from tell (expected %d, got %d)" % (self.pos[fd], ret))
 		return ret
-	
+
 	def seek(self, fd, pos):
 		ret = self.s.seek(fd, pos)
 
@@ -231,7 +232,7 @@ class FilesystemTester:
 
 		if_raise((pos <= flen) and ret == FAIL,
 			"Seek to %d inside file of size %d failed"% (pos, flen ))
-		
+
 		if ret == OK:
 			self.pos[fd] = pos
 
@@ -245,7 +246,7 @@ class FilesystemTester:
 
 		if ret == FAIL:
 			return ret
-		
+
 		if self.fs[path]['type'] == STAT_TYPE_FILE:
 			inode = self.fs[path]['inode']
 
@@ -263,7 +264,7 @@ class FilesystemTester:
 
 	def mkdir(self, path):
 		ret = self.s.mkdir(path)
-	
+
 		path_existed = path in self.fs.keys()
 
 		if path not in self.fs.keys():
@@ -271,7 +272,7 @@ class FilesystemTester:
 			myret = OK
 		else:
 			myret = FAIL
-			
+
 		if_raise(path_existed and (ret != FAIL),
 			"Mkdir on existent directory succeeded")
 		if_raise((not path_existed) and (ret == FAIL),
@@ -280,7 +281,7 @@ class FilesystemTester:
 		assert myret == ret	# Some case is not handled
 
 		return ret
-	
+
 	def rmdir(self, path):
 		ret = self.s.rmdir(path)
 
@@ -310,7 +311,7 @@ class FilesystemTester:
 
 	def opendir(self, path):
 		ret = self.s.opendir(path)
-		
+
 		if path in self.fs.keys() and self.fs[path]['type'] == STAT_TYPE_SYMLINK:
 			path = self.fs[path]['dest']
 
@@ -341,7 +342,7 @@ class FilesystemTester:
 	def readdir(self, dirfd):
 		ret = self.s.readdir(dirfd)
 		path = self.dirfd[dirfd][0]
-		
+
 		children_names = map(basename, self.children(path))
 		read_children_names = self.dirfd[dirfd][1]
 
@@ -356,7 +357,7 @@ class FilesystemTester:
 			read_children_names.add(ret[1])
 
 		return ret
-		
+
 	def link(self, oldpath, newpath):
 		ret = self.s.link(oldpath, newpath)
 		if_raise((oldpath not in self.fs.keys()) and (ret != FAIL),
@@ -379,7 +380,7 @@ class FilesystemTester:
 		if newpath in self.fs.keys():
 			if self.fs[newpath]['type'] == STAT_TYPE_DIRECTORY:
 				return ret
-			self.my_unlink(newpath)	
+			self.my_unlink(newpath)
 
 		if oldpath not in self.fs.keys():
 			return ret
@@ -433,9 +434,9 @@ def test_01_creat_open_close(s, dsize):
 
 def test_01_unlink(s, dsize):
 	t = FilesystemTester(s, dsize)
-	
+
 	assert t.open("/test.txt") == NULL
-	
+
 	ret = t.creat("/test.txt")
 	t.close(ret)
 
@@ -446,30 +447,29 @@ def test_01_unlink(s, dsize):
 	ret = t.open("/test.txt")
 
 	return t.ops()
-	
+
 def test_01_rename(s, dsize):
 	t = FilesystemTester(s, dsize)
 	oldfile="/test.txt"
 	newfile="/testnew.txt"
-	
+
 	t.close(t.creat(oldfile))
 	ret = t.rename(oldfile, newfile)
 	if_raise(ret == FAIL, "Rename failed")
 
 	t.open(oldfile)	# Should fail
 	t.close(t.open(newfile))
-	
+
 	t.unlink(oldfile)
 	t.unlink(newfile)
 	return t.ops()
-	
 
 def test_02_hello_world(s, dsize):
 	t = FilesystemTester(s, dsize)
-	
+
 	test_string = tobuf("Hello, world")
 	test_file = "/test.txt"
-	
+
 	fd = t.creat(test_file)
 	t.close(fd)
 
@@ -483,10 +483,10 @@ def test_02_hello_world_seek(s, dsize):
 	t = FilesystemTester(s, dsize)
 	test_string = tobuf("Hello, world")
 	test_file = "/test.txt"
-	
+
 	fd = t.creat(test_file)
 	t.write(fd, test_string)
-	
+
 	t.tell(fd)
 	t.seek(fd,0)
 	t.tell(fd)
@@ -494,18 +494,18 @@ def test_02_hello_world_seek(s, dsize):
 	t.write(fd, list(map(ord,"Ahoj")))
 	t.seek(fd, 11)
 	t.write(fd, [ord("!")])
-	
+
 	ret = t.read(fd, len(test_string))
 
 	return t.ops()
 
 def test_02_hello_world_rename(s, dsize):
 	t = FilesystemTester(s, dsize)
-	
+
 	test_string = tobuf("Hello, world")
 	test_file = "/test.txt"
 	rename_file = "/rename.txt"
-	
+
 	fd = t.creat(test_file)
 	t.close(fd)
 
@@ -535,7 +535,7 @@ def test_02_stress_creat(s, dsize):
 
 	# Four sectors for file without any content
 	count = min(int(dsize/(128*4)), 32767)
-	for i in range(1, count):		
+	for i in range(1, count):
 		test_file = "/t%04x.txt" % (i,)
 		f = t.creat(test_file)
 		t.close(f)
@@ -553,7 +553,7 @@ def test_02_stress_creat_write_read(s, dsize):
 		assert f != FAIL
 		t.write(f, tobuf("Hello, %04x" %(i)))
 		t.close(f)
-	
+
 	for i in range(1, count):
 		test_file = "/t%04x.txt" % (i,)
 		f = t.open(test_file)
@@ -577,7 +577,7 @@ def test_02_hello_bloat(s, dsize):
 		for i in range(1,times):
 			t.write(f,buff)
 		t.close(f)
-	
+
 	for i in range(1, count):
 		test_file = "/t%04x.txt" % (i,)
 		f = t.open(test_file)
@@ -588,7 +588,7 @@ def test_02_hello_bloat(s, dsize):
 	return t.ops()
 
 #
-#	Level 3 
+#	Level 3
 #
 
 
@@ -597,7 +597,7 @@ def test_03_mkdir_rmdir(s, dsize):
 	testdir = '/test'
 	testfile = '/test/file'
 	testdata = 'Hello, kitty'
-	
+
 	t.mkdir(testdir)
 
 	f = t.creat(testfile)

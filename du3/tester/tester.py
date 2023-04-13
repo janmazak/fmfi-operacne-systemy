@@ -10,14 +10,14 @@ import sys
 import os
 
 SUBMITS = os.getcwd() + "/submits/"
-COMMON = os.getcwd() + "/common/" 
+COMMON = os.getcwd() + "/common/"
 
 def colored(s,color):
 	if color == "red":
 		c="\033[0;31m"
 	elif color == "green":
 		c="\033[0;32m"
-		
+
 	return(c + s + "\033[00m")
 
 def hex2list(h):
@@ -33,7 +33,7 @@ class SubmitRun:
 		self.__cwd = tempfile.mkdtemp()
 		self.reads = 0
 		self.writes = 0
-		
+
 		self.start()
 
 	def start(self):
@@ -48,11 +48,11 @@ class SubmitRun:
 		except IOError:
 			pass
 		os.system("rm -rf " + self.__cwd)
-	
+
 	def log(self, s):
 		#print(s)
 		pass
-		
+
 	def restart(self):
 		self.end()
 		self.start()
@@ -65,11 +65,11 @@ class SubmitRun:
 		pass
 
 	def send(self, s):
-                try:
-                    self.__p.stdin.write(s)
-                except BrokenPipeError:
-                    raise RuntimeError("Target terminated unexpectedly")
-	
+		try:
+			self.__p.stdin.write(s)
+		except BrokenPipeError:
+			raise RuntimeError("Target terminated unexpectedly")
+
 	def recv(self):
 		s = self.__p.stdout.readline()
 		return s
@@ -87,7 +87,7 @@ class SubmitRun:
 			if self.__p.returncode != None:
 				code = self.__p.returncode
 				if code == -9: raise RuntimeError("Timeout (command: %s)"%cmd)
-				elif code > 0 or code == -6: 
+				elif code > 0 or code == -6:
 					err = self.__p.stderr.readlines()
 					if err != []:
 						raise RuntimeError(("Runtime error (command: %s):\n" % cmd) + "".join(err))
@@ -100,7 +100,7 @@ class SubmitRun:
 				raise RuntimeError("Unknown (command: %s)" % cmd)
 		# Split results and r/w stats
 		#print(pin, end='')
-		
+
 		(pin, stats) = pin.split("#")
 		pin = pin.strip()
 		items = pin.split(" ")
@@ -129,7 +129,7 @@ class SubmitRun:
 				raise RuntimeError("Invalid handle pointer value " + str(value))
 
 		return ret
-	
+
 	def end(self):
 		try:
 			self.cmd("end", False)
@@ -143,21 +143,21 @@ class SubmitRun:
 	def close(self, fd): return self.cmd("close", True, fd)[0]
 	def unlink(self, path): return self.cmd("unlink", True, path)[0]
 	def rename(self, oldpath, newpath): return self.cmd("rename", True, oldpath, newpath)[0]
-	
-	def read(self, fd, length): 
+
+	def read(self, fd, length):
 		ret = self.cmd("read", False, fd, length)
 		if (len(ret) == 1):
 			ret = (ret[0], '')
-		
+
 		# Black magic to decode hex byte string to list of bytes
 		return (ret[0], list(map(lambda x: int(x[0]+x[1], 16),
 			list(zip(ret[1][::2],ret[1][1::2])))))
 
-	def write(self, fd, data): 
+	def write(self, fd, data):
 		return self.cmd("write", False, fd, "".join(map(lambda x: hex(x)[2:],data)), len(data))[0]
 	def seek(self, fd, pos): return self.cmd("seek", True, fd, pos)[0]
 	def tell(self, fd): return self.cmd("tell", False, fd)[0]
-	def stat(self, fd): 
+	def stat(self, fd):
 		ret = self.cmd("stat", True, fd)
 		if len(ret) == 1:
 			return ret[0]
@@ -217,7 +217,7 @@ class TestJob:
 		# Extract task-dependent params
 		submit_run = run(SUBMITS + self.submit, [str(self.params['msize'])])
 		assert submit_run is not None
-	
+
 		msg = ""
 		ret = -1
 		try:
@@ -235,7 +235,7 @@ class TestJob:
 		if ret >= 0:
 			msg = "OK: " + str(ret)
 		self.__result = (ret, msg)
-	
+
 	def is_ok(self):
 		if self.__result is None: return None
 
@@ -245,7 +245,7 @@ class TestJob:
 
 	def message(self):
 		if self.__result is None: return None
-		
+
 		return self.__result[1]
 
 	def get_result(self):
@@ -267,7 +267,7 @@ class TestRunner:
 	def job_start(self, test):
 		with self.console_lock:
 			print("%s: START" % str(test))
-	
+
 	def job_finish(self, test):
 		if test.is_ok(): color = 'green'
 		else: color = 'red'
@@ -335,7 +335,7 @@ all_results = {}
 for job in jobs:
 	msize = job.params['msize']
 	submit = job.submit
-	
+
 	mem_results.setdefault(msize, {})
 	mem_results[msize].setdefault(submit,[None] * len(tests))
 
@@ -363,7 +363,7 @@ for job in jobs:
 #				color = 'green'
 #			else:
 #				color = 'red'
-#			
+#
 #			mem_results[msize][source].append((res, message))
 #			print(colored(message,color))
 
@@ -389,10 +389,10 @@ for msize in mem_results.keys():
 	results = mem_results[msize]
 	submits = list(results.keys())
 	submits.sort()
-	
+
 	html.write("<h2>%d bytes</h2>" % msize)
 	html.write("<table border=\"2\">\n")
-	
+
 	# Calculate maximums across tests
 	test_min = [0]*len(tests)
 	for test in range(0,len(tests)):
