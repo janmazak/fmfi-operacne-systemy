@@ -8,6 +8,8 @@ import tempfile
 from html import escape
 import sys
 import os
+from enum import Enum
+import traceback
 
 SUBMITS = os.getcwd() + "/submits/"
 COMMON = os.getcwd() + "/common/"
@@ -25,6 +27,13 @@ def hex2list(h):
 
 def lsb2msb(i):
 	return i[6:8] + i[4:6] + i[2:4] + i[0:2]
+
+# command return value type for checking
+class CmdRetValue(Enum):
+	NONE = 0
+	OK_FAIL = 1
+	INT = 2
+	POINTER = 3
 
 class SubmitRun:
 	def __init__(self, args):
@@ -74,7 +83,7 @@ class SubmitRun:
 		s = self.__p.stdout.readline()
 		return s
 
-	def cmd(self, cmd, checkOkFailReturnValue=False, *args):
+	def cmd(self, cmd, cmdReturnValueCheckType: CmdRetValue, *args):
 		pout = cmd + " " + " ".join(map(str, args))
 		#print(pout)
 		self.send(pout + "\n")
@@ -118,34 +127,39 @@ class SubmitRun:
 			)
 
 		value = ret[0]
-		if checkOkFailReturnValue:
+		if cmdReturnValueCheckType == CmdRetValue.OK_FAIL:
 			OK = 0
 			FAIL = -1
 			if (value != OK) and (value != FAIL):
 				raise RuntimeError("Invalid return value " + str(value))
-		else:
-			# should be an address
+		elif cmdReturnValueCheckType == CmdRetValue.INT:
+			FAIL = -1
+			if (value < 0) and (value != FAIL):
+				raise RuntimeError("Invalid return value " + str(value))
+		elif cmdReturnValueCheckType == CmdRetValue.POINTER:
 			if value < 0:
 				raise RuntimeError("Invalid handle pointer value " + str(value))
+		else:
+			pass  # no return value to check
 
 		return ret
 
 	def end(self):
 		try:
-			self.cmd("end", False)
+			self.cmd("end", CmdRetValue.NONE)
 		except (IOError, RuntimeError):
 			pass
 		self.__p.wait()
 
 	# L1
-	def open(self, path): return self.cmd("open", False, path)[0]
-	def creat(self, path): return self.cmd("creat", False, path)[0]
-	def close(self, fd): return self.cmd("close", True, fd)[0]
-	def unlink(self, path): return self.cmd("unlink", True, path)[0]
-	def rename(self, oldpath, newpath): return self.cmd("rename", True, oldpath, newpath)[0]
+	def open(self, path): return self.cmd("open", CmdRetValue.POINTER, path)[0]
+	def creat(self, path): return self.cmd("creat", CmdRetValue.POINTER, path)[0]
+	def close(self, fd): return self.cmd("close", CmdRetValue.OK_FAIL, fd)[0]
+	def unlink(self, path): return self.cmd("unlink", CmdRetValue.OK_FAIL, path)[0]
+	def rename(self, oldpath, newpath): return self.cmd("rename", CmdRetValue.OK_FAIL, oldpath, newpath)[0]
 
 	def read(self, fd, length):
-		ret = self.cmd("read", False, fd, length)
+		ret = self.cmd("read", CmdRetValue.INT, fd, length)
 		if (len(ret) == 1):
 			ret = (ret[0], '')
 
@@ -154,11 +168,11 @@ class SubmitRun:
 			list(zip(ret[1][::2],ret[1][1::2])))))
 
 	def write(self, fd, data):
-		return self.cmd("write", False, fd, "".join(map(lambda x: hex(x)[2:],data)), len(data))[0]
-	def seek(self, fd, pos): return self.cmd("seek", True, fd, pos)[0]
-	def tell(self, fd): return self.cmd("tell", False, fd)[0]
+		return self.cmd("write", CmdRetValue.INT, fd, "".join(map(lambda x: hex(x)[2:],data)), len(data))[0]
+	def seek(self, fd, pos): return self.cmd("seek", CmdRetValue.OK_FAIL, fd, pos)[0]
+	def tell(self, fd): return self.cmd("tell", CmdRetValue.INT, fd)[0]
 	def stat(self, fd):
-		ret = self.cmd("stat", True, fd)
+		ret = self.cmd("stat", CmdRetValue.OK_FAIL, fd)
 		if len(ret) == 1:
 			return ret[0]
 		assert len(ret[1]) == 24
@@ -169,14 +183,14 @@ class SubmitRun:
 			}
 		return (ret[0],rd)
 
-	def mkdir(self, path): return self.cmd("mkdir", True, path)[0]
-	def rmdir(self, path): return self.cmd("rmdir", True, path)[0]
-	def opendir(self, path): return self.cmd("opendir", False, path)[0]
-	def readdir(self, fd): return self.cmd("readdir", True, fd)
-	def closedir(self, fd): return self.cmd("closedir", False, fd)[0]
+	def mkdir(self, path): return self.cmd("mkdir", CmdRetValue.OK_FAIL, path)[0]
+	def rmdir(self, path): return self.cmd("rmdir", CmdRetValue.OK_FAIL, path)[0]
+	def opendir(self, path): return self.cmd("opendir", CmdRetValue.POINTER, path)[0]
+	def readdir(self, fd): return self.cmd("readdir", CmdRetValue.OK_FAIL, fd)
+	def closedir(self, fd): return self.cmd("closedir", CmdRetValue.OK_FAIL, fd)[0]
 
-	def link(self, oldpath, newpath): return self.cmd("link", True, oldpath, newpath)[0]
-	def symlink(self, path, sympath): return self.cmd("symlink", True, path, sympath)[0]
+	def link(self, oldpath, newpath): return self.cmd("link", CmdRetValue.OK_FAIL, oldpath, newpath)[0]
+	def symlink(self, path, sympath): return self.cmd("symlink", CmdRetValue.OK_FAIL, path, sympath)[0]
 
 def compile(source):
 	csource = source + "/filesystem.c"
@@ -223,7 +237,8 @@ class TestJob:
 		try:
 			ret = self.testfn(submit_run, self.params['msize'])
 		except RuntimeError as e:
-			msg = "FAIL: %s" % str(e)
+			# traceback.print_exc()
+			msg = "WRONG: %s" % str(e)
 		except ValueError as e:
 			msg = "Protocol error: %s" % str(e)
 			self.__result = (ret, msg)

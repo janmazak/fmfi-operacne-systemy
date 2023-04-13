@@ -11,7 +11,7 @@
 /* Oddelovac poloziek v adresarovej strukture */
 #define PATHSEP '/'
 
-#define OK  	0
+#define OK  	(0)
 #define FAIL	(-1)
 
 /* Typy pre fs_stat_t.st_type */

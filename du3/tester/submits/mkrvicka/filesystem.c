@@ -18,7 +18,7 @@ typedef struct {
 /**
  * Naformatovanie disku.
  *
- * Zavola sa vzdy, ked sa vytvara novy obraz disku. 
+ * Zavola sa vzdy, ked sa vytvara novy obraz disku.
  */
 void fs_format()
 {
@@ -32,7 +32,7 @@ void fs_format()
  * Volanie vytvori v suborovom systeme na zadanej ceste novy subor a vrati
  * handle nan. Ak subor uz existoval, bude skrateny na prazdny. Pozicia v subore bude
  * nastavena na 0ty byte. Ak adresar, v ktorom subor ma byt ulozeny, neexistuje,
- * vrati FAIL (sam nevytvara adresarovu strukturu, moze vytvarat iba subory).
+ * vrati NULL (sam nevytvara adresarovu strukturu, moze vytvarat iba subory).
  */
 
 file_t *fs_creat(const char *path)
@@ -56,7 +56,7 @@ file_t *fs_creat(const char *path)
 		((zero_sector_t*)buffer)->name[0] = 0;
 		hdd_write(0, buffer);
 	}
-	
+
 	/* Vsetko ok, pripravime informacie pre zapis do nulteho sektora */
 
 	/* Meno suboru je na zaciatku*/
@@ -76,7 +76,7 @@ file_t *fs_creat(const char *path)
  * Otvorenie existujuceho suboru.
  *
  * Ak zadany subor existuje, funkcia ho otvori a vrati handle nan. Pozicia v
- * subore bude nastavena na 0-ty bajt. Ak subor neexistuje, vrati FAIL.
+ * subore bude nastavena na 0-ty bajt. Ak subor neexistuje, vrati NULL.
  */
 file_t *fs_open(const char *path)
 {
@@ -105,7 +105,7 @@ file_t *fs_open(const char *path)
  *
  * Funkcia zatvori handle, ktory bol vytvoreny pomocou volania 'open' alebo
  * 'creat' a uvolni prostriedky, ktore su s nim spojene. V pripade akehokolvek
- * zlyhania vrati FAIL.
+ * zlyhania vrati FAIL, inak OK.
  */
 int fs_close(file_t *fd)
 {
@@ -118,7 +118,7 @@ int fs_close(file_t *fd)
  * Odstrani subor na ceste 'path'.
  *
  * Ak zadana cesta existuje a je to subor, odstrani subor z disku; nemeni
- * adresarovu strukturu. V pripade chyby vracia FAIL.
+ * adresarovu strukturu. V pripade chyby vracia FAIL, inak OK.
  */
 int fs_unlink(const char *path)
 {
@@ -132,7 +132,7 @@ int fs_unlink(const char *path)
  * 'oldpath' dostupny cez 'newpath' a 'oldpath' prestane existovat. Opat,
  * funkcia nemanipuluje s adresarovou strukturou (nevytvara nove adresare
  * z cesty newpath, okrem posledneho v pripade premenovania adresara).
- * V pripade zlyhania vracia FAIL.
+ * V pripade zlyhania vracia FAIL, inak OK.
  */
 int fs_rename(const char *oldpath, const char *newpath)
 {
@@ -162,7 +162,7 @@ int fs_read(file_t *fd, uint8_t *bytes, size_t size)
 	size_t i;
 	for (i = 0; (i < size) && ((i + offset) < file_size); i++) {
 		bytes[i] = buffer[offset + i];
-	}	
+	}
 
 	/* Aktualizujeme offset, na ktorom sme teraz */
 	fd->info[FILE_T_OFFSET] += i;
@@ -178,11 +178,11 @@ int fs_read(file_t *fd, uint8_t *bytes, size_t size)
  * presahuje hranice suboru, subor sa zvacsi; ak to nie je mozne, zapise sa
  * maximalny mozny pocet bajtov. Po zapise korektne upravi aktualnu poziciu v
  * subore a vracia pocet zapisanych bajtov z 'bytes'.
- * 
+ * V pripade zlyhania vrati FAIL.
+ *
  * Write existujuci obsah suboru prepisuje, nevklada dovnutra nove data.
  * Write pre poziciu tesne za koncom existujucich dat zvacsi velkost suboru.
  */
-
 int fs_write(file_t *fd, const uint8_t *bytes, size_t size)
 {
 	uint8_t buffer[SECTOR_SIZE] = { 0 };
@@ -222,8 +222,6 @@ int fs_write(file_t *fd, const uint8_t *bytes, size_t size)
  * Upravi aktualnu poziciu; ak je 'pos' mimo hranic suboru, vrati FAIL a pozicia
  * sa nezmeni, inac vracia OK.
  */
-
-
 int fs_seek(file_t *fd, size_t pos)
 {
 	uint8_t buffer[SECTOR_SIZE] = { 0 };
@@ -280,7 +278,7 @@ int fs_stat(const char *path, struct fs_stat *fs_stat) {
 	fs_stat->st_nlink = 1;
 	fs_stat->st_type = STAT_TYPE_FILE;
 
-	return OK; 
+	return OK;
 }
 
 /* Level 3 */
@@ -295,7 +293,7 @@ int fs_mkdir(const char *path) { return FAIL; }
 /**
  * Odstrani adresar 'path'.
  *
- * Odstrani adresar, na ktory ukazuje 'path'; ak neexistuje alebo nie je
+ * Odstrani prazdny adresar, na ktory ukazuje 'path'; ak obsahuje subory, neexistuje alebo nie je
  * adresar, vrati FAIL; po uspesnom dokonceni vrati OK.
  */
 int fs_rmdir(const char *path) { return FAIL; }
@@ -303,10 +301,10 @@ int fs_rmdir(const char *path) { return FAIL; }
 /**
  * Otvori adresar 'path' (na citanie poloziek)
  *
- * Vrati handle na otvoreny adresar s poziciou nastavenou na 0; alebo FAIL v
+ * Vrati handle na otvoreny adresar s poziciou nastavenou na 0; alebo NULL v
  * pripade zlyhania.
  */
-file_t *fs_opendir(const char *path) { return (file_t*)FAIL; }
+file_t *fs_opendir(const char *path) { return NULL; }
 
 /**
  * Nacita nazov dalsej polozky z adresara.
@@ -318,19 +316,21 @@ file_t *fs_opendir(const char *path) { return (file_t*)FAIL; }
  */
 int fs_readdir(file_t *dir, char *item) {return FAIL; }
 
-/** 
+/**
  * Zatvori otvoreny adresar.
+ * V pripade neuspechu vrati FAIL, inak OK.
  */
 int fs_closedir(file_t *dir) { return FAIL; }
 
 /* Level 4 */
 /**
  * Vytvori hardlink zo suboru 'path' na 'linkpath'.
+ * V pripade neuspechu vrati FAIL, inak OK.
  */
 int fs_link(const char *path, const char *linkpath) { return FAIL; }
 
 /**
  * Vytvori symlink z 'path' na 'linkpath'.
+ * V pripade neuspechu vrati FAIL, inak OK.
  */
 int fs_symlink(const char *path, const char *linkpath) { return FAIL; }
-
