@@ -21,7 +21,6 @@ Programuje sa v C, čo je jazyk náchylný na vznik chýb. Naučte sa preto pou�
 
 #### Čitateľnosť kódu
 
-Aj keď vaše programy po ohodnotení domácich úloh už nebude potrebné čítať a udržiavať, skúste ich písať štruktúrovane a čitateľne. Kód netreba vyšperkovať, siahodlho komentovať, ani vyrovnať všetky záhyby, ale nemal by vyzerať odpudivo. Snažíte sa opak tohto tu: [Obfuscated C Code Contest](https://www.ioccc.org/years.html#2020).
+Aj keď vaše programy po ohodnotení domácich úloh už nebude potrebné čítať a udržiavať, skúste ich písať štruktúrovane a čitateľne. Kód netreba vyšperkovať, siahodlho komentovať, ani vyrovnať všetky záhyby, ale nemal by vyzerať odpudivo. Snažíte sa o opak tohto tu: [Obfuscated C Code Contest](https://www.ioccc.org/years.html#2020).
 
-Mali by ste si v tomto smere vyvinúť automatický návyk, preto nepoľavujte ani pri domácich úlohách. Začnite použitím automatizovaného formátovača, napr. [`astyle`](https://iq.opengenus.org/astyle-c/). _Odporúčame tiež posunúť svoje riešenie na rýchle nazretie spolužiakovi, nech posúdi váš programovací štýl a prípadne navrhne vylepšenia._
-
+Mali by ste si v tomto smere vyvinúť automatický návyk, preto nepoľavujte ani pri domácich úlohách. Začnite použitím automatizovaného formátovača, napr. [`astyle`](https://iq.opengenus.org/astyle-c/).
