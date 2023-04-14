@@ -14,7 +14,7 @@ Všetky dáta, ktoré prišli na štandardný vstup programu, sa musia v (primer
 
 Vlastný program má byť napísaný v jazyku C a používať iba [štandardnú knižnicu jazyka C](https://en.wikipedia.org/wiki/C_standard_library) a a [knižnicu na synchronizovanie vlákien _pthread_](pthread.md). Vyhýbajte sa veciam mimo štandardu POSIX a neprenositeľným doplnkom, ktoré vaša konkrétna implementácia možno ponúka.
 
-Na synchronizáciu vlákien je silno odporúčané používať primitíva `pthread_mutex_lock`, `pthread_mutex_unlock`, `pthread_cond_wait`, `pthread_cond_signal`.
+Na synchronizáciu vlákien použite `pthread_mutex_lock`, `pthread_mutex_unlock`, `pthread_cond_wait`, `pthread_cond_signal`. Nie je povolené použiť mechanizmy, ktoré to vybavia za vás (napr. `pipe`). Úloha sa dá riešiť s malým počtom mutexov a podmienok (`pthread_cond_t`), premyslite si preto ešte pred písaním samotného programu, či ich nejdete použiť zbytočne veľa (jednoduchší program sa ľahšie ladí).
 
 Kompilácia vášho programu by mala prebehnúť bez chýb pomocou príkazu
 
@@ -24,7 +24,7 @@ Odporúčame tiež zapnúť prepínače `-Wall -Wextra -Wpedantic -Wconversion`;
 
 Ak nemáte dostupný Linux, môžete použiť študentský server Davinci (davinci.fmph.uniba.sk), na ktorý sa viete pripojiť napr. pomocou PuTTy, alebo [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about). (Dôrazne však odporúčame Linux si nainštalovať; keď pre nič iné, tak aspoň pre tú skúsenosť.)
 
-Na prácu so vstupom a výstupom je vhodné použiť systémové volania [`read`](http://man7.org/linux/man-pages/man2/read.2.html) a [`write`](http://man7.org/linux/man-pages/man2/write.2.html), funkcie vyššej úrovne typu `getc` sú podstatne pomalšie.
+Na prácu so vstupom a výstupom je vhodné použiť systémové volania [`read`](http://man7.org/linux/man-pages/man2/read.2.html) a [`write`](http://man7.org/linux/man-pages/man2/write.2.html), funkcie vyššej úrovne typu `getc` sú podstatne pomalšie. Pozor: `write` negarantuje zápis celého buffera naraz.
 
 
 ### Ako to vyskúšať?
