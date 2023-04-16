@@ -1,6 +1,17 @@
 # Multithreading v C pomocou _pthreads_
 
-V riešení domácej úlohy budeme využívať jazyk C a knižnicu _pthreads_ (POSIX threads). Stručný popis nájdete nižšie a podrobnejší v [tutoriáli](https://computing.llnl.gov/tutorials/pthreads/).
+V riešení domácej úlohy budeme využívať jazyk C a knižnicu _pthreads_ (POSIX threads). Stručný popis nájdete nižšie a podrobnejší napr. v
+* https://www.cs.cmu.edu/afs/cs/academic/class/15492-f07/www/pthreads.html
+* https://hpc-tutorials.llnl.gov/posix/
+* https://randu.org/tutorials/threads/
+
+#### Poznámka
+
+Iné programovacie jazyky majú aj rôzne iné API na vytváranie vlákien. Napr. v C++ je `std::thread`. Základné idey pre synchronizáciu vlákien sú však skoro všade tie isté.
+To, čo chceme zažiť pri tejto domácej úlohe, je práca s mechanizmom nízkej úrovne, blízko operačného systému.
+
+Typickým problémom novších vecí je zaostávanie implementácie za štandardom i víziou autorov či nepoužiteľnosť pre rôzne "embedded" zariadenia (napr. využívajúce procesory iné ako x86). Na ukážku si pozrite porovnania `pthreads` a `std::thread` z r. [2012](https://stackoverflow.com/questions/13134186/c11-stdthreads-vs-posix-threads) a [2023](https://www.linkedin.com/pulse/comparision-c-posix-threads-amit-nadiger/).
+
 
 #### Ukážka využitia _pthreads_
 
@@ -49,7 +60,7 @@ Zopár užitočných funkcií pre prácu s vláknami:
 
   *  `int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg)` sa používa na vytváranie vlákien: inicializuje obsah premennej `thread` informáciami o novo vytvorenom vlákne, nastaví vláknu atribúty podľa `attr` (alebo s NULL použije default hodnoty), vo vlákne skočí na funkciu `start_routine` s parametrom `arg`. (http://linux.die.net/man/3/pthread_create)
   * Od spustenia vlákno žije vlastným životom, hoci zdieľa dáta so svojím rodičom. Vlákno môže skončiť zavolaním funkcie `void pthread_exit(void *retval)` alebo návratom z funkcie, ktorou vlákno začínalo. (http://linux.die.net/man/3/pthread_exit)
-  * Keď sa vlákno ukončuje, návratová hodnota ukladá a rodič ju môže prečítať zavolaním funkcie `int pthread_join(pthread_t thread, void **retval)`. Ak sa `pthread_join` zavolá na neukončená vlákno, volajúce vlákno sa zablokuje a čaká na jeho ukončenie. (http://linux.die.net/man/3/pthread_join)
+  * Keď sa vlákno ukončuje, návratová hodnota sa ukladá a rodič ju môže prečítať zavolaním funkcie `int pthread_join(pthread_t thread, void **retval)`. Ak sa `pthread_join` zavolá na neukončené vlákno, volajúce vlákno sa zablokuje a čaká na jeho ukončenie. (http://linux.die.net/man/3/pthread_join)
   * Vlákno je možné v niektorých momentoch zrušiť pomocou `int pthread_cancel(pthread_t thread)`, avšak platia tu isté obmedzenia (http://linux.die.net/man/3/pthread_cancel).
 
 #### Zámky/mutexy

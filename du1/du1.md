@@ -22,7 +22,7 @@ Kompilácia vášho programu by mala prebehnúť bez chýb pomocou príkazu
 
 Odporúčame tiež zapnúť prepínače `-Wall -Wextra -Wpedantic -Wconversion`; neraz pomôžu odhaliť nenápadnú závažnú chybu. **Zvážte tiež použitie nástroja [valgrind](https://valgrind.org/) (odhalí o.i. chybnú prácu s pamäťou).**
 
-Ak nemáte dostupný Linux, môžete použiť študentský server Davinci (davinci.fmph.uniba.sk), na ktorý sa viete pripojiť napr. pomocou PuTTy, alebo [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about). (Dôrazne však odporúčame Linux si nainštalovať; keď pre nič iné, tak aspoň pre tú skúsenosť.)
+Ak nemáte dostupný Linux, môžete použiť študentský server Davinci (davinci.fmph.uniba.sk), na ktorý sa viete pripojiť napr. pomocou PuTTy, alebo [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about), prípadne využite Linux cez [virtuálnu mašinu](https://www.makeuseof.com/tag/install-linux-windows-vmware-virtual-machine/). (Odporúčame však Linux si nainštalovať; keď pre nič iné, tak aspoň pre tú skúsenosť.)
 
 Na prácu so vstupom a výstupom je vhodné použiť systémové volania [`read`](http://man7.org/linux/man-pages/man2/read.2.html) a [`write`](http://man7.org/linux/man-pages/man2/write.2.html), funkcie vyššej úrovne typu `getc` sú podstatne pomalšie. Pozor: `write` negarantuje zápis celého buffera naraz.
 
