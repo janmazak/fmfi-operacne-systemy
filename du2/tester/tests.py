@@ -17,7 +17,7 @@ def medium_fixed_size(memsize):
     return 10 + memsize // 27
 
 
-def doprimes(n): 
+def doprimes(n):
     if n==2: return [2]
     elif n<2: return []
     s=list(range(3,n+2,2))
@@ -45,7 +45,7 @@ class AllocTester:
         self.msize = msize
         self.moccupied = 0
         self.max_moccupied = 0
-    
+
     def alloc(self, size):
         ret = self.s.alloc(size)
         if ret >= 0:
@@ -65,7 +65,7 @@ class AllocTester:
 
     def free(self, addr):
         ret = self.s.free(addr)
-        
+
         # Valid attempt to free
         if addr in self.allocations and (ret == FAIL):
                 raise RuntimeError("Valid area not freed (%d)" % addr)
@@ -88,7 +88,7 @@ class AllocTester:
         for i in range(0,len(data)):
             assert self.s.write(dest+i, data[i]) == OK
         assert self.memcmp(dest, data) == True
-    
+
     def memcmp(self, dest, data):
         for i in range(0, len(data)):
             ret = self.s.read(dest + i)
@@ -106,10 +106,10 @@ def test_01_alloc_small(s, msize):
     order as they were returned '''
     tester = AllocTester(s, msize)
     mem = 0
-    
+
     # Allocate memory until possible
     while tester.alloc(small_fixed_size(msize)) != FAIL: pass
-    
+
     tester.restart_target()
 
     # Free memory
@@ -125,12 +125,12 @@ def test_01_alloc_small_free_reverse(s, msize):
     order '''
     tester = AllocTester(s, msize)
     mem = 0
-    
+
     # Allocate memory until possible
     while tester.alloc(small_fixed_size(msize)) != FAIL: pass
-        
+
     tester.restart_target()
-    
+
     # Free memory
     while not len(tester.allocd) == 0:
         tester.free(tester.allocd[-1])
@@ -140,7 +140,7 @@ def test_01_alloc_small_free_reverse(s, msize):
 
 def test_01_alloc_free_alloc_free(s, msize):
     t1 = test_01_alloc_small(s, msize)
-    t2 = test_01_alloc_small_free_reverse (s, msize)
+    t2 = test_01_alloc_small_free_reverse(s, msize)
 
     if t1 != t2:
         raise RuntimeError("Could not reclaim all space")
@@ -150,15 +150,15 @@ def test_01_alloc_free_alloc_free(s, msize):
 
 def test_01_alloc_medium_free_rand(s, msize):
     ''' Allocates all available memory, attempts to free all addresses in
-    non-linear order '''    
+    non-linear order '''
     tester = AllocTester(s, msize)
     mem = 0
-    
+
     # Allocate memory until possible
     while tester.alloc(medium_fixed_size(msize)) != FAIL: pass
-    
+
     tester.restart_target()
-        
+
     # Free memory
     for i in range(0, msize):
         tester.free((47*i) % msize)
@@ -168,9 +168,9 @@ def test_01_alloc_medium_free_rand(s, msize):
 
 def test_02_alloc_max(s, msize):
     tester = AllocTester(s, msize)
-    lo = 1 
+    lo = 1
     hi = msize + 47
-    
+
     while lo < hi:
         size = (lo + hi)//2
         ret = tester.alloc(size)
@@ -180,11 +180,9 @@ def test_02_alloc_max(s, msize):
             lo = size + 1
         else:
             hi = size
-        
-
 
         assert hi > 0
-    
+
     ret = tester.alloc(tester.max_moccupied)
     if ret == FAIL:
         raise RuntimeError("Could not alloc-free-alloc maximum");
@@ -204,7 +202,7 @@ def test_02_alloc_256s_fill_rand_free_rand(s, msize):
         ret = tester.alloc(256)
         if ret == FAIL: break
         tester.memcpy(ret, range(0,256))
-    
+
     # Free memory
     for i in range(0, msize):
         tester.free((47*i) % msize)
@@ -214,7 +212,7 @@ def test_02_alloc_256s_fill_rand_free_rand(s, msize):
 
 def test_02_alloc_medium_fill_free(s, msize):
     ''' Allocates all available memory, attempts to free all addresses in
-    non-linear order '''    
+    non-linear order '''
     tester = AllocTester(s, msize)
     mem = 0
     size = medium_fixed_size(msize)
@@ -224,9 +222,9 @@ def test_02_alloc_medium_fill_free(s, msize):
         ret = tester.alloc(size)
         if ret == FAIL: break
         tester.memcpy(ret, [47]*size)
-    
+
     tester.restart_target()
-        
+
     # Free memory
     for i in range(0, msize):
         if i in tester.allocd:
@@ -241,7 +239,7 @@ def test_03_alloc_prime_sizes(s, msize):
 
     # Primes
     primes = doprimes(min(5000, msize))
-    
+
     count = 0
     signs = {}
     while True:
@@ -252,7 +250,7 @@ def test_03_alloc_prime_sizes(s, msize):
         tester.memcpy(ret + size - 1, signs[ret])
 
         count += 1
-    
+
     # Test written values
     for addr in tester.allocd:
         size = tester.allocations[addr]
@@ -274,14 +272,14 @@ def test_03_alloc_prime_sizes(s, msize):
 
     while True:
         if tester.alloc(1) == FAIL: break
-    
+
     to_free = tester.allocd[:]
     to_free.sort()
 
     for i in to_free: tester.free(i)
 
     assert tester.moccupied == 0
-    return tester.max_moccupied 
+    return tester.max_moccupied
 
 
 def test_03_alloc_free_mix(s, msize):

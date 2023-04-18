@@ -11,7 +11,7 @@ import sys
 import os
 
 SUBMITS = os.getcwd() + "/submits/"
-COMMON = os.getcwd() + "/common/" 
+COMMON = os.getcwd() + "/common/"
 
 TIMEOUT = 1
 
@@ -20,7 +20,7 @@ def colored(s,color):
         c="\033[0;31m"
     elif color == "green":
         c="\033[0;32m"
-        
+
     return(c + s + "\033[00m")
 
 class SubmitRun:
@@ -69,9 +69,9 @@ class SubmitRun:
         self.__p.stdin.flush()
 
     def recv(self):
-        #print("trying readline") 
+        #print("trying readline")
         s = self.__p.stdout.readline()
-        #print("done readline") 
+        #print("done readline")
 
 # stderr is non-blocking; no data returned cause problems with encoding
 # conversion. For now catch it.
@@ -101,7 +101,7 @@ class SubmitRun:
                 if self.__p.returncode != None:
                     code = self.__p.returncode
                     if code == -9: raise RuntimeError("Timeout")
-                    elif code > 0 or code == -6: 
+                    elif code > 0 or code == -6:
                         err = self.errors
                         if err != []:
                             raise RuntimeError("Runtime error:\n" + "".join(err))
@@ -112,12 +112,12 @@ class SubmitRun:
                     else: raise RuntimeError("Terminated with exit code %d" % self.__p.returncode)
                 else:
                     raise RuntimeError("Unknown")
-            
+
             ret = int(pin)
             return ret
         except ValueError as e:
             raise RuntimeError("Protocol error: " + str(e))
-    
+
     def end(self):
         try:
             self.cmd("end", False)
@@ -149,16 +149,9 @@ class SubmitRun:
 
 def compile(source):
     csource = source + "/alloc.c"
-    jsource = source + "/Alloc.java"
     if os.access(csource, os.R_OK):
-        if source.find("sadovsky") != -1:
-            append = "-std=gnu99"
-        else: append=""
-        exit_code = os.system("cc -std=c99 -g %s -Icommon/c/ common/c/wrapper.c -o %s -lm %s" % (csource,
-            source + "/alloc", append))
-    elif os.access(jsource, os.R_OK):
-        exit_code = os.system("javac -cp common/java/ %s" % (source +
-            "/Alloc.java"))
+        exit_code = os.system("cc -std=c99 -g %s -Icommon/c/ common/c/wrapper.c -o %s -lm" %
+            (csource, source + "/alloc"))
     else:
         print("Unknown source for " + source)
 
@@ -166,12 +159,9 @@ def compile(source):
 
 def run(source, args, logfile = None):
     cbinary = source + "/alloc"
-#    jbinary = source + "/Alloc.class"
     if os.access(cbinary, os.R_OK):
         # Got binary
         run_args = [cbinary]
-#    elif os.access(jbinary, os.R_OK):
-#        run_args = ['java', '-ea', '-cp', source+':' + COMMON + '/java', 'Wrapper']
     else:
         print("Could not launch " + source)
 
@@ -286,7 +276,7 @@ tests = list(map(lambda x: getattr(tests_module, x), filter(lambda x: x.startswi
     dir(tests_module))))
 
 #memsizes = [1000, 2323, 3678
-memsizes = [2048, 5000, 11247, 70000 # 2**17 + 47 
+memsizes = [2048, 5000, 11247, 70000 # 2**17 + 47
         ]
 mem_results = {}
 
@@ -308,13 +298,14 @@ for submit in all_submits:
         for test in tests:
             jobs.append(TestJob(submit, test, msize = msize))
 
-TestRunner(jobs, 4).run()
+NUM_THREADS = 1
+TestRunner(jobs, NUM_THREADS).run()
 
 all_results = {}
 for job in jobs:
     msize = job.params['msize']
     submit = job.submit
-    
+
     mem_results.setdefault(msize, {})
     mem_results[msize].setdefault(submit,[None] * len(tests))
 
@@ -342,7 +333,7 @@ for job in jobs:
 #                color = 'green'
 #            else:
 #                color = 'red'
-#            
+#
 #            mem_results[msize][source].append((res, message))
 #            print(colored(message,color))
 
@@ -368,10 +359,10 @@ for msize in mem_results.keys():
     results = mem_results[msize]
     submits = list(results.keys())
     submits.sort()
-    
+
     html.write("<h2>%d bytes</h2>" % msize)
     html.write("<table border=\"2\">\n")
-    
+
     # Calculate maximums across tests
     test_max = [0]*len(tests)
     for test in range(0,len(tests)):

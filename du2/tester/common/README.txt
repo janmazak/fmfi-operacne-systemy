@@ -24,11 +24,9 @@ ku polu, ale pomocou nasledovnych funkcii:
   Navyse, nesmiete pouzivat ziadne globalne ani staticke premenne. Rozpisane
 podrobnejsie:
 
-  - v Cckovom programe nesmu byt ziadne premenne deklarovane mimo vasich
-    funkcii,
-  - v Jave aj v C nesmiete pouzivat klucove slovo 'static' okrem miest, kde uz
-    pouzite je (resp. v Jave si ho mozete dovolit iba v kombinacii s klucovym
-    slovom 'final' a v Ccku s 'const' :) ). 
+  - ziadne premenne nesmu byt deklarovane mimo vasich funkcii,
+  - nesmiete pouzivat klucove slovo 'static' okrem miest, kde uz
+    pouzite je (da sa pouzit 'static const').
 
   A samozrejme, ziadne triky s dynamickou alokaciou pamate a ukladanim si
 pointrov cez 'mwrite'. Mozem sa rozhodnut, ze vas program kedykolvek ukoncim, a
@@ -43,13 +41,12 @@ obsadena a ktora volna.
 
   2. Co mate spravit
 
-  V zadani je pre vas dolezity iba jeden subor -- alloc.c, alebo Alloc.java . V
+  V zadani je pre vas dolezity iba jeden subor -- alloc.c. V
 tomto subore budete upravovat kod funkcii/metod, nemali by ste sa dotykat nicoho
-ineho. Obzvlast nie obsahu suboru wrapper.c/Wrapper.java , pripadne wrapper.h
-(tieto subory mi ani neposielajte; ako riesenie vasej ulohy mi bude stacit
-alloc.c/Alloc.java).
+ineho. Obzvlast nie obsahu suboru wrapper.c, pripadne wrapper.h
+(tieto subory ani neodovzdavajte).
 
-  Vasou ulohou je (re-)implementovat 3 funkcie v alloc.c/Alloc.java
+  Vasou ulohou je (re-)implementovat 3 funkcie v alloc.c
 
   - my_init() -- jeho kod sa vykona pri vytvarani noveho suboru s pamatou.
     Mozete predpokladat, ze pamat je na zaciatku nastavena na same 0; v tejto
@@ -79,7 +76,6 @@ alokovanych miest v pamati.
 nasledujucich odstavcoch budem uvadzat vzdy varianty pre C aj Javu):
 
   gcc alloc.c wrapper.c -o wrapper
-  javac Alloc.java Wrapper.java
 
   Pri spustani viete zadat velkost pamate, ktoru bude vas alokator pouzivat. Ak
 sa uskromnite s pamatou o velkosti 47 bajtov (bez parametra sa inicializuje
@@ -87,16 +83,6 @@ pamat o velkosti 4096 bajtov), spustite a spravnom adresari (tam, kde su
 zdrojaky):
 
   ./wrapper 47
-  java -ea Wrapper 47
-
-  NOTE: Javisti, vsimnite si -ea flag. Znamena to 'enable assertions' --
-vyhodnocovanie niektorych kontrolnych podmienok (assert), ktore su v zdrojaku,
-ale Java ich standardne vypina. Je prudko odporucane zapnut kontroly; ak program
-bude padat, znamena to, ze cosi je zle. Malo by to byt mozne spravit v kazdom
-IDE: 
-
- - eclipse: http://www.cis.upenn.edu/~matuszek/cit594-2004/Pages/eclipse-faq.html#assert
- - NetBeans: http://paulmcpd.blogspot.com/2009/12/netbeans-enabling-assertions.html
 
   Prve spustenie vyrobi subor memory.bin so zadanou velkostou. Ak budete chciet
 velkost pamate zmenit, musite subor zmazat, aby sa mohol vyrobit novy.
@@ -117,7 +103,6 @@ hodnotu).
 do textoveho suboru a potom spustit:
 
   ./wrapper 47 <prikazy.txt
-  java -ea Wrapper 47 <prikazy.txt
 
   Pozor, takto sa neda testovat uplne vsetko -- prikazy su casto zavisle na
 navratovych hodnotach predchadzajucich prikazov.
@@ -127,7 +112,7 @@ navratovych hodnotach predchadzajucich prikazov.
 
   Vase riesenia by v prvom rade mali fungovat _spravne_ -- nemali by padat pre
 lubovolny korektny vstup. Uprednostnujte jednoduchsi a funkcny kod pred
-zlozitejsim a padajucim. 
+zlozitejsim a padajucim.
 
   Ukazkove riesenie tuto podmienku splna az prilis, preto budem zaroven
 pozadovat, aby s rastucou pamatou mohol rast aj pocet alokovanych oblasti v

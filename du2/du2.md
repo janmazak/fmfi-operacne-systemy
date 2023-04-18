@@ -95,11 +95,11 @@ ním dá pomocou zopár príkazov. Každý príkaz sa píše na nový riadok, pa
 oddelené medzerami. Program zakaždým (až na príkaz 'end') vypíše návratovú
 hodnotu.
 
-  * `alloc 47` -- zavolá `my_alloc(47)` a vypíše návratovú hodnotu
-  * `free 47` -- zavolá `my_free(47)` a vypíše návratovú hodnotu
-  * `write 0 47` -- zavolá `mwrite(0, 47)` a vypíše `0`
-  * `read 0` -- zavolá `mread(0)` a vypíše návratovú hodnotu
-  * `end` -- ukončí program
+  * `alloc 47` --- zavolá `my_alloc(47)` a vypíše návratovú hodnotu
+  * `free 47` --- zavolá `my_free(47)` a vypíše návratovú hodnotu
+  * `write 0 47` --- zavolá `mwrite(0, 47)` a vypíše `0`
+  * `read 0` --- zavolá `mread(0)` a vypíše návratovú hodnotu
+  * `end` --- ukončí program
 
 
 Ak by ste chceli testovať vo väčšom, môžete si sadu príkazov dopredu pripraviť
@@ -107,8 +107,22 @@ do textového súboru a potom spustiť:
 
     ./wrapper 47 < príkazy.txt
 
-Na komplexnejšie testovanie odporúčame využiť [testovac](tester) v jazyku Python.
+Na komplexnejšie testovanie odporúčame využiť [testovač](tester) v jazyku Python.
+V textovom výstupe vás nezaujímajú riadky START (len označujú, že aký test bol spustený).
+Bežné chyby:
+* _allocated area overlap_ --- prekrývajú sa alokované oblasti
+* _byte exceeding maximum address allocated_ --- alokovaná oblasť zasahuje za hranicu dostupnej pamäte
+* _valid area not freed_ --- zlyhalo uvoľnenie pridelenej pamäte
+* _invalid area freed_ --- podarilo sa uvoľniť pamäť, ktorá nebola pridelená
+* _data mismatch_ --- používateľ prečítal iné dáta, než do pridelenej pamäte zapísal, t.j. alokátor mu ju prepísal
+* _could not reclaim all space_ --- nebolo naplnené očakávanie, že keď niekoľkokrát po sebe skúsim alokovať tie isté bloky pamäte v tom istom poradí, vždy sa to podarí, t.j. činnosťou alokátora nedochádza k postupnému úbytku dostupnej pamäte
 
+V html výstupe:
+* číslo za OK znamená, koľko užívateľských bytov sa podarilo alokovať (pre jednotlivé testy by malo rásť s množstvom celkovej pamäte)
+* zelená farba označuje korektný priebeh testu (svetlá zelená zvýrazňuje maximum alokovanej pamäte)
+* červená farba zvýrazňuje chyby (s podrobnejším popisom vo vyskakovacom okienku)
+
+Zvýšením počtu vlákien v testovači (premenná `NUM_THREADS`) možno zvýšiť jeho rýchlosť.
 
 ## Hodnotenie
 
@@ -122,7 +136,9 @@ pamäti, a tiež celková veľkosť pamäte, ktorú je možné alokovať. Inými
 mali by ste s pamäťou pracovať aspoň trocha efektívne.
 Myslite tiež na to, že alokácia pamäte musí byť rýchla (jednotlivé volania funkcií alokatora by nemali trvať viac než pár milisekúnd), hoci optimalizovať rýchlosť `alloc`/`free` nie je hlavným cieľom správy pamäte, najmä nie v tejto domácej úlohe.
 
-Zároveň prichádza challenge: približne 5 algoritmov, ktoré budú vedieť pamäť využívať najlepšie (pre danú sadu testov; hodnotí sa v priemere najmenší overhead na alokáciu atď.), získajú opäť 1 až 2 bonusové body.
+Činnosťou alokátora nesmie dochádzať k postupnému úbytku pamäte alokovateľnej užívateľmi (vaše pomocné štruktúry by v pamäti nemali narastať, pri uvoľnovaní treba dbať na ich zmenšovanie --- ak niekoľkokrát po sebe užívateľ žiada prideliť tú istú postupnosť blokov pamäti, malo by sa to podariť vždy, ak sa to podarilo prvýkrát).
+
+Zároveň prichádza challenge: približne 5 algoritmov, ktoré budú vedieť pamäť využívať najlepšie (hodnotí sa v priemere najmenší overhead na alokáciu atď.), získajú opäť 1 až 2 bonusové body.
 
 
 ## Odovzdávanie
