@@ -1,7 +1,7 @@
 # Domáca úloha 3
 
 Úlohou je implementovať vlastný súborový systém. Táto úloha je o dosť rozsiahlejšia ako predchádzajúca,
-preto na získanie plného počtu bodov nebude treba spraviť implementáciu celého API.
+preto na získanie plného počtu bodov netreba spraviť implementáciu celého API.
 
 ## Práca s diskom
 
@@ -148,7 +148,7 @@ s adresármi, nie iba funkcie, ktoré sú v L3 navyše.
 
 Programy sa odovzdávajú e-mailom na adresu `jan.mazak@fmph.uniba.sk`, predmet `OS-DU3`, súbor `filesystem.c` priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne).
 
-Najneskorší možný termín odovzdania je **20. 5. 2023**. Nepodceňujte čas potrebný na túto DÚ, ani celý deň nemusí stačiť.
+Najneskorší možný termín odovzdania je **19. 5. 2024**. Nepodceňujte čas potrebný na túto DÚ, ani celý deň nemusí stačiť.
 
 Oficiálny výstup z testovača bude zverejnený po odovzdaní všetkých domácich úloh na http://dcs.fmph.uniba.sk/~mazak/vyucba/os/results3.html.
 

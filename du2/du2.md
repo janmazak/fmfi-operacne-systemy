@@ -2,7 +2,7 @@
 
 Vašou úlohou bude napísať vlastný alokator pamäte v jazyku C. Úlohou
 alokatora je spravovať nejaký kus pamäte a vykonávať nad ním operácie
-alloc(veľkosť) a free(adresa); vo vašom prípade funkcie `my_alloc` a `my_free`. 
+alloc(veľkosť) a free(adresa); vo vašom prípade funkcie `my_alloc` a `my_free`.
 Ich význam je rovnaký, ako malloc/free v C; viac je popísané v druhej časti.
 
 
@@ -145,7 +145,7 @@ Zároveň prichádza challenge: približne 5 algoritmov, ktoré budú vedieť pa
 
 Programy sa odovzdávajú e-mailom na adresu `jan.mazak@fmph.uniba.sk`, predmet `OS-DU2`, súbor `alloc.c` priložte k e-mailu. Odovzdať je možné viackrát (najviac raz denne).
 
-Najneskorší možný termín odovzdania je **24. 4. 2023**. Nepodceňujte čas potrebný na túto DU, za hodinku-dve to s vysokou pravdepodobnosťou nenapíšete, najmä ak cielite na efektívnejšie riešenie, ktoré má šancu získať bonus.
+Najneskorší možný termín odovzdania je **24. 4. 2024**. Nepodceňujte čas potrebný na túto DU, za hodinku-dve to s vysokou pravdepodobnosťou nenapíšete, najmä ak cielite na efektívnejšie riešenie, ktoré má šancu získať bonus.
 
 Oficiálny výstup z testovača bude zverejnený po odovzdaní všetkých domácich úloh (a občas aj priebežne) na http://dcs.fmph.uniba.sk/~mazak/vyucba/os/results2.html.
 

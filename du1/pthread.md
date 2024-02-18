@@ -7,7 +7,7 @@ V riešení domácej úlohy budeme využívať jazyk C a knižnicu _pthreads_ (P
 
 #### Poznámka
 
-Iné programovacie jazyky majú aj rôzne iné API na vytváranie vlákien. Napr. v C++ je `std::thread`. Základné idey pre synchronizáciu vlákien sú však skoro všade tie isté.
+Iné programovacie jazyky majú aj rôzne iné API na vytváranie vlákien. Napr. v C++ je `std::thread`. Základné idey pre synchronizáciu vlákien sú však zväčša tie isté.
 To, čo chceme zažiť pri tejto domácej úlohe, je práca s mechanizmom nízkej úrovne, blízko operačného systému.
 
 Typickým problémom novších vecí je zaostávanie implementácie za štandardom i víziou autorov či nepoužiteľnosť pre rôzne "embedded" zariadenia (napr. využívajúce procesory iné ako x86). Na ukážku si pozrite porovnania `pthreads` a `std::thread` z r. [2012](https://stackoverflow.com/questions/13134186/c11-stdthreads-vs-posix-threads) a [2023](https://www.linkedin.com/pulse/comparision-c-posix-threads-amit-nadiger/).
@@ -21,9 +21,9 @@ Krátky kód, ktorý vytvorí dve súčasne bežiace vlákna a nechá ich vypiso
     #include <stdlib.h>
     #include <stdio.h>
     #include <unistd.h>
-     
+
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-     
+
     void *vlakno1(void *data) {
         while(1) {
             pthread_mutex_lock(&mutex);
@@ -32,7 +32,7 @@ Krátky kód, ktorý vytvorí dve súčasne bežiace vlákna a nechá ich vypiso
             sleep(1);
         }
     }
-     
+
     void *vlakno2(void *data) {
         while(1) {
             pthread_mutex_lock(&mutex);
@@ -41,7 +41,7 @@ Krátky kód, ktorý vytvorí dve súčasne bežiace vlákna a nechá ich vypiso
             sleep(1);
         }
     }
-     
+
     int main (void) {
         pthread_t t1, t2;
         pthread_create(&t1, NULL, vlakno1,  NULL);
@@ -65,7 +65,7 @@ Zopár užitočných funkcií pre prácu s vláknami:
 
 #### Zámky/mutexy
 
-Slúžia na zabezpečenie časti kódu, ktorú môže naraz vykonávať iba jeden proces (kritická sekcia). Pred vstupom do kritickej sekcie musí vlákno zamknúť mutex -- pokiaľ už bol zamknutý predtým, vlákno bude zablokované, kým sa neuvoľní. V opačnom prípade mutex zamkne a vojde do kritickej sekcie, a po skončení vykonávania mutex odomkne. 
+Slúžia na zabezpečenie časti kódu, ktorú môže naraz vykonávať iba jeden proces (kritická sekcia). Pred vstupom do kritickej sekcie musí vlákno zamknúť mutex -- pokiaľ už bol zamknutý predtým, vlákno bude zablokované, kým sa neuvoľní. V opačnom prípade mutex zamkne a vojde do kritickej sekcie, a po skončení vykonávania mutex odomkne.
 
 Pthreads API, ktoré je dôležité pre nás, je nasledovné:
 
